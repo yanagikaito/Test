@@ -75,12 +75,18 @@ public class Shooting {
                     font = new Font("SansSerif", Font.PLAIN, 20);
                     //フォントオブジェクトは、グラフィックオブジェクトに対して、setFont方式。
                     gra.setFont(font);
-                    //getFontMetricsメソッドは、フォントのサイズや間隔などのフォントに関する情報を含むフォント・メトリックス・オブジェクトを取得するために使用されます。
+
+                    //getFontMetricsメソッドは、フォントのサイズや間隔などのフォントに関する情報を
+                    // 含むフォント・メトリックス・オブジェクトを取得するために使用されます。
                     metrics = gra.getFontMetrics(font);
+
                     //drawStringメソッドを使用して、グラフィックス オブジェクトに文字列を描画します。
-                    // フォント メトリックスを使用して文字列の幅を計算し、画面の中心の x 座標からその値の半分を減算することで、文字列を画面上の水平方向に中央に配置します。
+                    // フォント メトリックスを使用して文字列の幅を計算し、
+                    // 画面の中心の x 座標からその値の半分を減算することで、文字列を画面上の水平方向に中央に配置します。
                     gra.drawString("Press SPACE to Start", 250 - (metrics.stringWidth("Press SPACE to Start") / 2), 160);
-                    //スペースキーが押された場合( 'isKeyPressedのメソッドキーボードクラス)、コードはさまざまなゲーム変数をリセットし、画面をゲーム画面に設定します。
+
+                    //スペースキーが押された場合( 'isKeyPressedのメソッドキーボードクラス)、コードはさまざまなゲーム変数をリセットし、
+                    // 画面をゲーム画面に設定します。
                     // これにより、プレイヤーはスペースキーを押したときに新しいゲームを開始できます。
                     // 「bullets_player、bullets_playerそしてbullets_enemy変数は空のリストにリセットされ、
                     // enemies変数が空のリストにリセットされ、プレーヤーの位置がデフォルトの開始位置にリセットされ、スコアとレベルが0にリセットされます。
@@ -110,23 +116,50 @@ public class Shooting {
                     //最初の四角形は、左上隅をポイント (playerX+ 10,playerY)、幅は 10、高さは 10 です。
                     gra.fillRect(playerX, playerY + 10, 30, 10);
 
-
+                    //メソッドは、0.0から1.0未満の範囲でランダムな値を返します。それに360をかけることで、0から359の間のランダムな方向を取得します。
                     double direction = Math.random() * 360;
+                    //オブジェクトを作成して、 bullets_player リストに追加します。これはプレイヤーの位置から始まる弾丸です。
                     bullets_player.add(new Bullet(playerX + 12, playerY, (int) direction));
 
-                for (int i = 0; i < bullets_player.size(); i++) {
+                    //bullets_player リスト内のすべての弾丸を処理するためのループを開始します。
+                    //bullets_player リストから現在処理している弾丸を取得します。
+                    for (int i = 0; i < bullets_player.size(); i++) {
+
+
+                        //　弾丸を描画するための fillRect() メソッドを呼び出します。
                         Bullet bullet = bullets_player.get(i);
+
+
+                        // 弾丸の位置（ bullet.x および bullet.y ）とサイズ（10×10）が指定されています。
                         gra.fillRect(bullet.x, bullet.y, 10, 10);
+
+                        //弾丸の速度を設定します。
                         int speed = 20;
+
+
+                        //弾丸のX座標を更新します。 bullet.direction は、弾丸が進む方向を表します。
+                        // Math.cos() メソッドは、与えられた角度の余弦を返します。
                         bullet.x += (int) (Math.cos(Math.toRadians(bullet.direction)) * speed);
+
+                        //弾丸のY座標を更新します。 Math.sin() メソッドは、与えられた角度の正弦を返します。
                         bullet.y -= (int) (Math.sin(Math.toRadians(bullet.direction)) * speed);
+
+                        //弾丸が画面の外に出たかどうかをチェックします。
+                        // もし弾丸が画面外に出た場合、弾丸を bullets_player リストから削除します。
                         if (bullet.y < 0 || bullet.x < 0 || bullet.x > 500 || bullet.y > 500) {
                             bullets_player.remove(i);
                             i--;
                         }
-
+                        //forループの始まりで、敵のリストenemiesの全要素に対して処理を行います。
                         for (int l = 0; l < enemies.size(); l++) {
+
+                            //リストenemiesから要素を取得し、Enemyオブジェクトに代入します。
+                            // これにより、敵の座標やその他の情報にアクセスできるようになります。
                             Enemy enemy = enemies.get(l);
+
+                            //if文で、弾の座標が敵の矩形内にあるかどうかをチェックします。敵は矩形で表されており、
+                            // enemy.xとenemy.yは左上の座標、enemy.x + 30とenemy.y + 20は右下の座標を表します。
+                            // 弾の座標が矩形の範囲内にある場合、敵を消去してスコアを加算します。
                             if (bullet.x >= enemy.x && bullet.x <= enemy.x + 30 &&
                                     bullet.y >= enemy.y && bullet.y <= enemy.y + 20) {
                                 enemies.remove(l);
@@ -135,18 +168,52 @@ public class Shooting {
                         }
                     }
 
+                    //gra.setColor(Color.RED)は、描画に使用する色を設定します。ここでは、赤色を指定しています。
                     gra.setColor(Color.RED);
+
+                    //forループの始まりで、敵のリストenemiesの全要素に対して処理を行います。
                     for (int i = 0; i < enemies.size(); i++) {
+
+                        //リストenemiesから要素を取得し、Enemyオブジェクトに代入します。
+                        // これにより、敵の座標やその他の情報にアクセスできるようになります。
                         Enemy enemy = enemies.get(i);
+
+                        //gra.fillRect(enemy.x, enemy.y, 30, 10)とgra.fillRect(enemy.x + 10, enemy.y + 10, 10, 10)は、
+                        // 敵を描画するためのコードです。
                         gra.fillRect(enemy.x, enemy.y, 30, 10);
+
+                        //gra.fillRect()メソッドは、四角形を描画します。ここでは、敵の形状が2つの長方形で表されており、
+                        //左側の長方形の大きさは30x10で、右側の長方形の大きさは10x10です。
                         gra.fillRect(enemy.x + 10, enemy.y + 10, 10, 10);
+
+                        //enemy.y += 3は、敵を下に移動させます。ここでは、敵のy座標に3を加算しています。
                         enemy.y += 3;
+
+                        //if文で、敵が画面下端に到達したかどうかをチェックします。
+                        // もし画面下端に到達している場合、リストenemiesから対象の敵を削除します。
                         if (enemy.y > 500) {
+
+                            //enemies.remove(i)は、リストenemiesから対象の敵を削除します。
                             enemies.remove(i);
+
+                            //i--は、削除した敵の位置をリスト内で調整するために必要です。
                             i--;
                         }
-                        if (random.nextInt(level < 50 ? 80 - level : 30) == 1)
+
+                        //敵が弾を発射する条件をチェックしています。
+                        //random.nextInt()メソッドは、0から指定された整数未満のランダムな整数を返します。
+                        // このコードでは、levelが50未満の場合は80からlevelを引いた値を上限とし、それ以上の場合は30を上限とします。
+                        //== 1は、ランダムに選ばれた整数が1である場合にのみ、弾を発射するように指示しています。
+                        if (random.nextInt(level < 10 ? 50 - level : 80) == 1)
+
+                            //Enemyオブジェクトで表され、enemyという変数で参照されます。
+                            // 弾丸の初期位置は敵の位置に設定され、x座標はenemy.x + 12に設定されます。
+                            // これにより、弾丸が敵の中央に水平に配置されます。また、y座標はenemy.yに設定されます。
+                            // これにより、弾丸が敵の上部に配置されます。
+                            //Bulletコンストラクターに渡される3番目の引数は、0から359までのランダムな角度で、
+                            // random.nextInt(360)メソッドを使って生成されます。この角度は、弾丸の初期の移動方向を決定します。
                             bullets_enemy.add(new Bullet(enemy.x + 12, enemy.y, random.nextInt(360)));
+
                         if ((enemy.x >= playerX && enemy.x <= playerX + 30 &&
                                 enemy.y >= playerY && enemy.y <= playerY + 20) ||
                                 (enemy.x + 30 >= playerX && enemy.x + 30 <= playerX + 30 &&
@@ -174,7 +241,6 @@ public class Shooting {
                             score += (level - 1) * 100;
                         }
                     }
-
 
 
                     if (Keyboard.isKeyPressed(KeyEvent.VK_LEFT) && playerX > 0) playerX -= 8;
