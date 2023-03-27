@@ -16,7 +16,7 @@ public class Keyboard extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
-        if(!pressedButtons.contains(e.getKeyCode())) pressedButtons.add(e.getKeyCode());
+        if (!pressedButtons.contains(e.getKeyCode())) pressedButtons.add(e.getKeyCode());
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class ShootingPanel extends JPanel {
     public BufferedImage image;
+
     public ShootingPanel() {
         super();
         this.image = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
@@ -18,7 +19,7 @@ public class ShootingPanel extends JPanel {
     }
 
     public void draw() {
-    this.repaint();
+        this.repaint();
     }
 }
 
