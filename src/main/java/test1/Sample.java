@@ -4,7 +4,7 @@ public class Sample {
     String name1 = "勇者A";
 
     static String name = "勇者";//使われる側もstaticでないといけない
-    static int lv = 10;
+    static int lv = 100;
 
     public static void main(String[] args) {
         Sample a = new Sample();
@@ -23,7 +23,7 @@ public class Sample {
 
     void putJyosyou() //staticのところで使う場合
     {
-        System.out.println("魔王が" + "世界を滅ぼそうとしています。");
+        System.out.println("魔王が世界を滅ぼそうとしています。");
         name = name1;
         System.out.println(name + "はレベル" + lv + "のツワモノです。");
     }
@@ -48,8 +48,11 @@ public class Sample {
             put("でしたが倒せました");
         } else if (lv <= 10) {
             put("でしたので苦戦しました");
-        } else
-            put(" GAME CLEAR！ ");
+            
+        } else {
+
+        }
+        put(" GAME CLEAR！ ");
     }
 
     static void put(String str) {
